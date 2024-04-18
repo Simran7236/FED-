@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+</head>
+<body>
+  <script>
+    const calculatorDiv = document.createElement('div')
+    calculatorDiv.id = 'calculator'
+    const screenDiv = document.createElement('div')
+    screenDiv.id = 'screen'
+    const calcDiv = document.createElement('div')
+    calcDiv.id = 'calc'
+    const resultDiv = document.createElement('div')
+    resultDiv.id = 'result'
+    screenDiv.appendChild(calcDiv)
+    screenDiv.appendChild(resultDiv)
+    calculatorDiv.appendChild(screenDiv)
+    document.body.appendChild(calculatorDiv)
+    let string = ""
+    const buttonValues = ['C', '*', '.', '+', '=', '-', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    const calculator = document.getElementById('calculator')
+    buttonValues.forEach(value => {
+      const button = document.createElement('button')
+      button.textContent = value
+      button.classList.add('value')
+      calculator.appendChild(button)
+      button.addEventListener('click', function() {
+        handleInput(this.textContent)
+      })
+    })
+    document.addEventListener('keydown', function(event) {
+      const keyPressed = event.key
+      if (/[0-9+\-*/.=C]/.test(keyPressed)) {
+        handleInput(keyPressed)
+      }
+      if (/Enter/.test(keyPressed)) {
+        handleInput(keyPressed)
+      }
+    })
+
+    function handleInput(input) {
+      if (input === '=' || input === 'Enter') {
+        try {
+          const result = eval(string)
+          document.getElementById('result').textContent = result
+        } catch (error) {
+          document.getElementById('result').textContent = 'Error'
+        }
+        string = ""
+      } else if (input === 'C') {
+        string = ""
+        document.getElementById('calc').textContent = ""
+        document.getElementById('result').textContent = ""
+      } else {
+        string += input
+        document.getElementById('calc').textContent = string
+      }
+    }
+
+    let style = document.createElement('style')
+    style.innerHTML = `
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      #calculator {
+        width: 400px;
+        margin: 100px auto;
+        text-align: center;
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      .value {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        margin: 8px;
+        cursor: pointer;
+        background-color: rgb(143, 155, 143);
+        color: white;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 20px 40px;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      #screen {
+        margin-bottom: 10px;
+        padding: 20px 30px;
+        font-size: 24px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        border: 2px solid black;
+      }
+    `
+    document.head.appendChild(style)
+  </script>
+</body>
+</html>
